@@ -1,4 +1,4 @@
-# AngularJS Wikidata Castles Application
+# Angular Gallery and Map Application
 
 ## Overview
 
