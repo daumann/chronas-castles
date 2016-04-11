@@ -2,6 +2,6 @@ node_modules/
 .idea
 test
 scripts
-app/bower_components
-app/app/bower_components
+castles/bower_components
+castles/app/bower_components
 .travis.yml

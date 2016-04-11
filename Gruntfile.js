@@ -8,28 +8,28 @@ module.exports = function(grunt) {
 	    },
 	    app: {
 		files: {
-		    './app/min-safe/js/angulargrid.js': ['./app/js/angulargrid.js'],
-		    './app/min-safe/js/animations.js': ['./app/js/animations.js'],
-		    './app/min-safe/js/controllers.js': ['./app/js/controllers.js'],
-		    './app/min-safe/js/directives.js': ['./app/js/directives.js'],
-		    './app/min-safe/js/filters.js': ['./app/js/filters.js'],
-		    './app/min-safe/js/services.js': ['./app/js/services.js'],
-		    './app/min-safe/app.js': ['./app/js/app.js']
+		    './castles/min-safe/js/angulargrid.js': ['./castles/js/angulargrid.js'],
+		    './castles/min-safe/js/animations.js': ['./castles/js/animations.js'],
+		    './castles/min-safe/js/controllers.js': ['./castles/js/controllers.js'],
+		    './castles/min-safe/js/directives.js': ['./castles/js/directives.js'],
+		    './castles/min-safe/js/filters.js': ['./castles/js/filters.js'],
+		    './castles/min-safe/js/services.js': ['./castles/js/services.js'],
+		    './castles/min-safe/app.js': ['./castles/js/app.js']
 		}
 	    }
 	}, 
 
 	concat: {
 	    js: {
-		src: ['./app/min-safe/app.js', './app/min-safe/js/*.js'],
-		dest: './app/min/app.js'
+		src: ['./castles/min-safe/app.js', './castles/min-safe/js/*.js'],
+		dest: './castles/min/app.js'
 	    }
 	},
 
 	uglify: {
 	    js: { //target
-		src: ['./app/min/app.js'],
-		dest: './app/min/app.js'
+		src: ['./castles/min/app.js'],
+		dest: './castles/min/app.js'
 	    }
 	}
 

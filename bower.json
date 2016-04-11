@@ -8,7 +8,7 @@
     "angular": "1.4.x",
     "angular-mocks": "1.4.x",
     "bootstrap": "~3.3.5",
-    "components-font-awesome": "~4.5.0",
+    "fontawesome": "~4.5.0",
     "jquery": "~2.1.1",
     "ngInfiniteScroll": "~1.2.2",
     "bootstrap": "~3.1.1",
