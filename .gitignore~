@@ -1,0 +1,7 @@
+node_modules/
+.idea
+.test
+scripts
+app/bower_components
+app/app/bower_components
+.travis.yml

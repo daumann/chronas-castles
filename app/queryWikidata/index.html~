@@ -1,0 +1,90 @@
+<html>
+<body>
+
+<div id="result">
+
+</div>
+
+<script src="jquery-1.12.0.min.js"></script>
+<script>
+$.getJSON("https://wdq.wmflabs.org/api?q=claim[31:(tree[23413][][279])]%20AND%20claim[625]&props=31,18,625")
+
+    .done(function(full) {
+        
+        var languageId = "dewiki";
+        var richList = [];
+        //full.items.length
+        for (var i = 0; i<full.items.length; i++) {
+            var currItem = full.items[i];
+            var myTitle,myType,myGeoHash,myThumb,myFullImage;
+            var preURL,preLoc,preType;
+        
+            var wikiIdPromise = $.get("https://www.wikidata.org/w/api.php?action=wbgetentities&ids=Q" + currItem + "&props=sitelinks&languages=en&format=json");
+        
+            /** Image Lookup **/
+            for (var j = 0; j<full.props['18'].length; j++) {
+                if (currItem === full.props['18'][j][0]){
+        
+                    var imagePromise = $.get("https://commons.wikimedia.org/w/api.php?action=query&titles=File%3A"+full.props['18'][j][2]+"&prop=imageinfo&iiurlwidth=260&iiurlheight=400&iiprop=url%7Csize&format=json");
+                    
+                    
+        
+                    break;
+                }
+            }
+        
+            /** Type Lookup **/
+            for (var j = 0; j<full.props['31'].length; j++) {
+                if (currItem === full.props['31'][j][0]){
+                    myType = full.props['31'][j][2];
+                    break;
+                }
+            }
+        
+            /** Location Lookup ### https://github.com/chrisveness/latlon-geohash **/
+            for (var j = 0; j<full.props['625'].length; j++) {
+                if (currItem === full.props['625'][j][0]){
+                    preLoc = full.props['625'][j][2].split("|");
+                    myGeoHash =  [preLoc[0], preLoc[1]]; // Geohash.encode(preLoc[0], preLoc[1], [precision])
+                    break;
+                }
+            }
+            console.debug(i);
+            
+        (function (myType,myGeoHash){
+        
+            $.when(imagePromise, wikiIdPromise).done(function(imageData, titleData) {
+            //    console.debug(imageData,titleData)
+                
+            
+                
+                /** Title Logic **/
+                titleData = titleData[0];
+                var jsonObj = titleData.entities;
+                console.debug(titleData)
+                console.debug( Object.keys(jsonObj))
+                var firstProp = Object.keys(jsonObj)[0];
+        
+                if (jsonObj[firstProp].sitelinks[languageId] !== undefined){
+                    myTitle = jsonObj[firstProp].sitelinks[languageId].title;
+        
+                    if (imageData !== undefined){
+                        /** Image Logic **/
+                        imageData = imageData[0];
+                        firstProp = Object.keys(imageData.query.pages)[0];
+                        myThumb = imageData.query.pages[firstProp].imageinfo[0].thumburl;
+                        myFullImage = imageData.query.pages[firstProp].imageinfo[0].url;
+                    }
+        
+                    richList.push([myTitle,myType,myGeoHash,myThumb,myFullImage]);
+
+                	$("#result").append(JSON.stringify([myTitle,myType,myGeoHash,myThumb,myFullImage]));
+                }
+        
+                
+            });
+        })(myType,myGeoHash)
+        }
+
+})
+</script>

@@ -1,0 +1,58 @@
+<div class="container-fluid">
+  <div class="navbar">
+      <div class="chronasLogo">
+          <a href="//chronas.org" title="Back to Home" target="_blank">
+              <img class="chronasLogo" ng-src="chronas.png" title="Chronas Home">
+              </a>
+      </div>
+      <div class="languages"> 
+          <img class="{{current.wikiId == 'en' ? 'activeLanguage' : ''}}" ng-click="changeLanguage('en')" ng-src="England.png" title="English">
+          <img  class="{{current.wikiId == 'de' ? 'activeLanguage' : ''}}" ng-click="changeLanguage('de')" ng-src="Germany.png" title="German">
+          <img  class="{{current.wikiId == 'fr' ? 'activeLanguage' : ''}}" ng-click="changeLanguage('fr')" ng-src="France.png" title="French">
+          <img  class="{{current.wikiId == 'es' ? 'activeLanguage' : ''}}" ng-click="changeLanguage('es')" ng-src="Spain.png" title="Spanish">
+          <img  class="{{current.wikiId == 'ru' ? 'activeLanguage' : ''}}" ng-click="changeLanguage('ru')" ng-src="Russia.png" title="Russian">
+          <img  class="{{current.wikiId == 'el' ? 'activeLanguage' : ''}}" ng-click="changeLanguage('el')" ng-src="greece.png" title="Greek">
+          <img  class="{{current.wikiId == 'ja' ? 'activeLanguage' : ''}}" ng-click="changeLanguage('ja')" ng-src="Japan.png" title="Japanese">
+      </div>
+    <div class="container">
+      <!--Sidebar content-->
+        <div class="mapTooltip"><i>{{current.MapTooltip}}</i></div>
+        <div class="log">{{current.showingEng1}} <b>{{filtered.length}}</b> {{current.showingEng2}} <b>{{castleAmount}}</b> {{current.showingEng3}}</div>
+        <div class="search-filter"><i class="fa fa-search"></i><input  ng-change="lookAdv(query)" ng-model-options='{ debounce: 400 }' ng-model="query" type="text" value=""></div>
+        
+        <div class="horizontal-list__item kv-list"><span class="kv-list__value"><div class="segmented-control__mode-toggle" ><span class="kv-list__key">{{current.View}}:</span><i ng-click="setCesiumActive(true)" class="fa fa-map fa-4"></i><i ng-click="setCesiumActive(false)" class="fa fa-th fa-4"  style="opacity:1;"></i></div></span>   </div>
+    <div id="sortBy">
+      Sort by:
+      <select ng-model="orderProp">
+        <option value="name">Alphabetical</option>
+        <option value="age">Newest</option>
+      </select>
+    </div>
+    </div>
+    </div>
+    <div cesium-directive="" id="cesium1" class="cesiumContainer"></div>
+
+        
+            
+    </div>
+    <div class="row" ng-hide="cesiumActive" infinite-scroll="loadMore()" infinite-scroll-distance="1">
+        <div >
+      <!--Body content-->
+
+      <ul class="phones" >
+          
+        <li ng-repeat="phone in images | filter:query as filtered "
+            class="thumbnail phone-listing">
+          <div ng-click="open($event)"  class="thumb"><img ng-src="{{phone[2]}}" data-fullURL="{{phone[3]}}" alt="{{phone[0]}}">
+              
+          </div>
+            <figure><figcaption>{{phone[0]}} <span class="linkSpan" ><a ng-click='flyTo($event)' href=""  data-coo="{{phone[1]}}"><i class="fa fa-crosshairs"></i></a> <a  ng-click="openWiki($event)" href="" data-wikiURL="http://{{current.wikiId}}.wikipedia.org/wiki/{{phone[0]}}?printable=yes" ><i class="fa fa-wikipedia-w"></i></a></span> </figcaption></figure>
+            <!--  <a target="_blank" href="https://en.wikipedia.org/wiki/{{phone[0]}}">{{phone[0]}}</a>  -->
+ 
+            </li>
+          </ul>
+    
+        </div>
+      </div>
+    </div>
+    

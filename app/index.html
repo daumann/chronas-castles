@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" ng-app="castleApp">
+<head>
+  <meta charset="utf-8">
+  <title>Chronas: Castles</title>
+  <link rel="icon" href="favicon.ico" />
+    
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="/node_modules/ng-dialog/css/ngDialog.css">
+  <link rel="stylesheet" href="/node_modules/ng-dialog/css/ngDialog-theme-default.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+    
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src='bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js'></script>
+  <script src="/node_modules/ng-dialog/js/ngDialog.js"></script>
+    
+  <!-- Cesium related -->
+  <script data-require="lodash.js@*" data-semver="3.8.0" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.8.0/lodash.js"></script>
+  <script src="http://cesiumjs.org/Cesium/Build/CesiumUnminified/Cesium.js"></script>
+  <link rel="stylesheet" href="http://cesiumjs.org/Cesium/Build/CesiumUnminified/Widgets/widgets.css" />
+
+  <!-- Minified Logic -->
+  <script src="min/app.js"></script>
+    
+</head>
+
+<body ng-controller="CastleListCtrl  as CastleListCtrl">
+
+<div id="loading">
+    <div style="text-align: center">
+        <p>{{current.loadingMessage}}</p>
+    </div>
+</div>
+  <div class="view-container">
+    <div ng-view class="view-frame"></div>
+  </div>
+  <script type="text/ng-template" id="firstDialogId">
+      <div id="fullImage" style="background-image: url('{{currImage}}');" ></div>
+  </script>
+  <script type="text/ng-template" id="wikiDialogId">
+          <iframe class="wikiframe" ng-src="{{currURL}}"  frameborder="0">
+              <p>Your browser does not support iframes.</p>
+          </iframe>
+  </script>
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-76209468-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+</body>
+
+</html>

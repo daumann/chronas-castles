@@ -1,0 +1,101 @@
+<html>
+<body>
+
+<div id="result">
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script>
+    var languageId = "ruwiki";
+    var richList = [];
+    var full;
+    function nextItem(index,currItem){
+        var myTitle,myType,myGeoHash,myThumb,myFullImage;
+        var preURL,preLoc,preType;
+
+        var wikiIdPromise = $.get("https://www.wikidata.org/w/api.php?action=wbgetentities&ids=Q" + currItem + "&props=sitelinks&languages=ru&format=json");
+
+        /** Image Lookup **/
+        for (var j = 0; j<full.props['18'].length; j++) {
+            if (currItem === full.props['18'][j][0]){
+
+                var imagePromise = $.get("https://commons.wikimedia.org/w/api.php?action=query&titles=File%3A"+full.props['18'][j][2]+"&prop=imageinfo&iiurlwidth=260&iiurlheight=400&iiprop=url%7Csize&format=json");
+
+
+
+                break;
+            }
+        }
+
+        /** Type Lookup **/
+        for (var j = 0; j<full.props['31'].length; j++) {
+            if (currItem === full.props['31'][j][0]){
+                myType = full.props['31'][j][2];
+                break;
+            }
+        }
+
+        /** Location Lookup ### https://github.com/chrisveness/latlon-geohash **/
+        for (var j = 0; j<full.props['625'].length; j++) {
+            if (currItem === full.props['625'][j][0]){
+                preLoc = full.props['625'][j][2].split("|");
+                myGeoHash =  [preLoc[0], preLoc[1]]; // Geohash.encode(preLoc[0], preLoc[1], [precision])
+                break;
+            }
+        }
+
+        (function (myType,myGeoHash){
+
+            $.when(imagePromise, wikiIdPromise).done(function(imageData, titleData) {
+
+                /** Title Logic **/
+                titleData = titleData[0];
+                var jsonObj = titleData.entities;
+                var firstProp = Object.keys(jsonObj);
+
+                if (firstProp !== undefined && firstProp !== null && jsonObj[firstProp[0]].sitelinks[languageId] !== undefined){
+                    firstProp = firstProp[0];
+                    myTitle = jsonObj[firstProp].sitelinks[languageId].title;
+
+                    if (imageData !== undefined){
+                        /** Image Logic **/
+                        imageData = imageData[0];
+                        firstProp = Object.keys(imageData.query.pages)[0];
+                        if (imageData.query.pages[firstProp].imageinfo !== undefined){
+                            myThumb = imageData.query.pages[firstProp].imageinfo[0].thumburl;
+                            myFullImage = imageData.query.pages[firstProp].imageinfo[0].url;
+
+                        }
+                    }
+
+                    richList.push([myTitle,myType,myGeoHash,myThumb,myFullImage]);
+
+                    nextItem(index+1,full.items[index+1])
+
+                    $("#result").html(index);
+                }
+                else {
+                    nextItem(index+1,full.items[index+1])
+                }
+
+
+            });
+        })(myType,myGeoHash)
+    }
+
+    $.getJSON("https://wdq.wmflabs.org/api?q=claim[31:(tree[23413][][279])]%20AND%20claim[625]&props=31,18,625")
+
+            .done(function(resFull) {
+                full = resFull;
+                nextItem(0,full.items[0])
+
+            })
+</script>
+
+// save as logfile
+// sed -i '1d' logfile              # kill first line
+// sed -i 's/^.\{1\}//' logfile     # kill first char
+// sed -i '$ s/.$//' logfile        # kill last char
+
+sed -i '1d' 1.log && sed -i 's/^.\{5\}//' 1.log && sed -i '$ s/.$//' 1.log
