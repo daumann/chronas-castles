@@ -137,6 +137,7 @@ phonecatControllers.controller('CastleListCtrl', ['$scope', 'Phone', 'ngDialog',
           if (lngId !== $scope.current.wikiId){
               $("#loading").removeClass("fadingOut").addClass("fadingIn");
               setTimeout(function (){
+                  $scope.setCesiumActive(false);
                   if(curr_page.indexOf("?") > -1) {
                       curr_page = curr_page.substring(0,curr_page.indexOf("?"));
                   }
