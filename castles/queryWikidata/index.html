@@ -93,9 +93,12 @@
             })
 </script>
 
-// save as logfile
+// to save the JSON result in a file follow those steps:
+
+// this script uses cross-origin AJAX calls, so you need the following Chrome extension enabled: https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en
+// when done, open developers console of Chrome and type "JSON.stringify(richList)"
+// right click and save as logfile
 // sed -i '1d' logfile              # kill first line
 // sed -i 's/^.\{1\}//' logfile     # kill first char
 // sed -i '$ s/.$//' logfile        # kill last char
 
-sed -i '1d' 1.log && sed -i 's/^.\{5\}//' 1.log && sed -i '$ s/.$//' 1.log
